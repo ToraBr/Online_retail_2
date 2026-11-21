@@ -18,7 +18,6 @@ df["Revenue"] = df["Quantity"] * df["Price"]
 cancellations = df[df["Invoice"].str.startswith("C")]
 
 
-#removes cancellations
 df = df[(df["Quantity"] > 0) & (df["Price"] > 0)].copy() #remove returns
 
 #non-product stock codes to remove
@@ -36,6 +35,7 @@ df = df[~remove]
 #the two giant mistake orders, that were later cancelled
 orders_to_remove = ["581483", "541431"]
 df = df[~df["Invoice"].astype(str).isin(orders_to_remove)]
+cancellations = cancellations[~cancellations["Invoice"].isin(["C581484", "C541433"])]
 
 df["Country"] = df["Country"].replace({
     "EIRE": "Ireland",
